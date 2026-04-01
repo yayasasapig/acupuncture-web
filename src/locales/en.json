@@ -2,7 +2,8 @@
   "nav": {
     "meridianMap": "Meridian Map",
     "fiveElements": "Five Elements",
-    "ziwuLiuzhu": "Ziwu Liuzhu"
+    "ziwuLiuzhu": "Ziwu Liuzhu",
+    "schoolsOverview": "Schools Overview"
   },
   "meridian": {
     "title": "Meridian System",
@@ -185,6 +186,16 @@
       "health": "Time to Sleep",
       "symptoms": "Low Immunity, Hormonal Imbalance"
     }
+  },
+  "schools": {
+    "title": "Major Acupuncture Schools",
+    "subtitle": "From Huangdi Neijing to modern theory — explore two millennia of acupuncture school evolution",
+    "clickToExpand": "Click to expand",
+    "coreTheory": "Core Theory",
+    "keyTexts": "Key Texts",
+    "keyTechniques": "Key Techniques",
+    "subSchools": "Sub-Schools",
+    "labels": ["Traditional Meridian", "Jin-Yuan Four Schools", "Dong's Acupuncture", "Microsystems", "Modern Theories", "Chrono Medicine"]
   },
   "common": {
     "clickToExplore": "Click to Explore",

@@ -2,7 +2,8 @@
   "nav": {
     "meridianMap": "經絡地圖",
     "fiveElements": "五行圖",
-    "ziwuLiuzhu": "子午流注"
+    "ziwuLiuzhu": "子午流注",
+    "schoolsOverview": "學派總覽"
   },
   "meridian": {
     "title": "經絡系統",
@@ -185,6 +186,16 @@
       "health": "入睡",
       "symptoms": "免疫力下降、內分泌失調"
     }
+  },
+  "schools": {
+    "title": "針灸主要學派",
+    "subtitle": "從《黃帝內經》到現代理論，了解針灸學兩千年的流派演變與發展",
+    "clickToExpand": "點擊展開",
+    "coreTheory": "核心理論",
+    "keyTexts": "代表典籍",
+    "keyTechniques": "主要技法",
+    "subSchools": "子學派",
+    "labels": ["傳統經絡派", "金元四大家", "董氏針灸", "微針系統", "現代理論", "時間醫學"]
   },
   "common": {
     "clickToExplore": "點擊探索",

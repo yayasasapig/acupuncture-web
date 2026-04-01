@@ -4,6 +4,7 @@ import Navigation from './components/Navigation';
 import MeridianMap from './components/MeridianMap';
 import FiveElements from './components/FiveElements';
 import ZiwuLiuzhu from './components/ZiwuLiuzhu';
+import SchoolsOverview from './components/SchoolsOverview';
 import { motion } from 'framer-motion';
 import { Sparkles } from 'lucide-react';
 
@@ -59,6 +60,7 @@ function App() {
         <MeridianMap />
         <FiveElements />
         <ZiwuLiuzhu />
+        <SchoolsOverview />
 
         {/* Footer */}
         <footer className="py-12 px-4 border-t border-dark-border">

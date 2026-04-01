@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next';
 import { motion } from 'framer-motion';
-import { Globe, Map, Hexagon, Clock } from 'lucide-react';
+import { Globe, Map, Hexagon, Clock, BookOpen } from 'lucide-react';
 
 const Navigation = ({ currentLang, onLangChange }) => {
   const { t, i18n } = useTranslation();
@@ -16,6 +16,7 @@ const Navigation = ({ currentLang, onLangChange }) => {
     { id: 'meridian', label: t('nav.meridianMap'), icon: Map },
     { id: 'fiveelements', label: t('nav.fiveElements'), icon: Hexagon },
     { id: 'ziwu', label: t('nav.ziwuLiuzhu'), icon: Clock },
+    { id: 'schools', label: t('nav.schoolsOverview'), icon: BookOpen },
   ];
 
   const toggleLang = () => {
