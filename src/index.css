@@ -1,0 +1,72 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --chinese-blue: #1e3a5f;
+  --chinese-indigo: #2d3a6e;
+  --chinese-vermilion: #c94a4a;
+  --chinese-amber: #d4a04a;
+  --chinese-jade: #4a8c7a;
+  --chinese-purple: #6b4c7a;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'Inter', 'Noto Sans TC', system-ui, sans-serif;
+  background: linear-gradient(135deg, #0f1419 0%, #1a2332 50%, #0f1419 100%);
+  min-height: 100vh;
+  color: #e8eaed;
+}
+
+.scrollbar-thin::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+.scrollbar-thin::-webkit-scrollbar-track {
+  background: rgba(45, 58, 79, 0.3);
+  border-radius: 3px;
+}
+
+.scrollbar-thin::-webkit-scrollbar-thumb {
+  background: rgba(74, 140, 122, 0.5);
+  border-radius: 3px;
+}
+
+.scrollbar-thin::-webkit-scrollbar-thumb:hover {
+  background: rgba(74, 140, 122, 0.7);
+}
+
+@keyframes flowGlow {
+  0%, 100% { opacity: 0.6; }
+  50% { opacity: 1; }
+}
+
+@keyframes pulseGlow {
+  0%, 100% { 
+    box-shadow: 0 0 5px currentColor, 0 0 10px currentColor;
+    opacity: 0.8;
+  }
+  50% { 
+    box-shadow: 0 0 15px currentColor, 0 0 25px currentColor;
+    opacity: 1;
+  }
+}
+
+.acupuncture-glow {
+  animation: pulseGlow 2s ease-in-out infinite;
+}
+
+.meridian-flow {
+  animation: flowGlow 2s ease-in-out infinite;
+}
