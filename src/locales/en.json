@@ -195,7 +195,10 @@
     "keyTexts": "Key Texts",
     "keyTechniques": "Key Techniques",
     "subSchools": "Sub-Schools",
-    "labels": ["Traditional Meridian", "Jin-Yuan Four Schools", "Dong's Acupuncture", "Microsystems", "Modern Theories", "Chrono Medicine"]
+    "labels": ["Traditional Meridian", "Jin-Yuan Four Schools", "Dong's Acupuncture", "Microsystems", "Modern Theories", "Chrono Medicine"],
+    "importantPoints": "Key Acupoints / Figures / Concepts",
+    "visualizationSuggestion": "Visualization Suggestion",
+    "items": "items"
   },
   "common": {
     "clickToExplore": "Click to Explore",

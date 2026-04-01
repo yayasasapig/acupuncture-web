@@ -195,7 +195,10 @@
     "keyTexts": "代表典籍",
     "keyTechniques": "主要技法",
     "subSchools": "子學派",
-    "labels": ["傳統經絡派", "金元四大家", "董氏針灸", "微針系統", "現代理論", "時間醫學"]
+    "labels": ["傳統經絡派", "金元四大家", "董氏針灸", "微針系統", "現代理論", "時間醫學"],
+    "importantPoints": "重點穴位 / 人物 / 概念",
+    "visualizationSuggestion": "視覺化建議",
+    "items": "項"
   },
   "common": {
     "clickToExplore": "點擊探索",

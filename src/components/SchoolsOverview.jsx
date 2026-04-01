@@ -4,28 +4,97 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { schools } from '../data/schools';
 import {
   BookOpen, Scroll, Star, Target, Zap, Clock,
-  ChevronDown, ChevronUp, X, Users, CalendarDays, FileText, Sparkles
+  ChevronDown, ChevronUp, X, Users, CalendarDays, FileText, Sparkles,
+  MapPin, Lightbulb, Eye
 } from 'lucide-react';
 
 const iconMap = {
   BookOpen, Scroll, Star, Target, Zap, Clock
 };
 
+const schoolLabels = [
+  { zh: '傳統經絡派', en: 'Traditional Meridian' },
+  { zh: '金元四大家', en: 'Jin-Yuan Four Schools' },
+  { zh: '董氏針灸', en: 'Dong\'s Acupuncture' },
+  { zh: '微針系統', en: 'Microsystems' },
+  { zh: '現代理論', en: 'Modern Theories' },
+  { zh: '時間醫學', en: 'Chrono Medicine' },
+];
+
+// ── Helper: render a single importantPoint card ──────────────────────────────
+function ImportantPointCard({ pt, schoolColor, isZh }) {
+  return (
+    <div className="p-4 rounded-xl border border-dark-border bg-dark-bg/40 hover:border-opacity-50 transition-colors">
+      <div className="flex items-start gap-3">
+        <div
+          className="w-2 h-2 rounded-full mt-2 flex-shrink-0"
+          style={{ backgroundColor: schoolColor }}
+        />
+        <div className="flex-1 min-w-0">
+          <h5 className="text-white font-semibold text-sm mb-1 leading-snug">
+            {pt.name}
+          </h5>
+          <div className="flex flex-wrap gap-x-4 gap-y-1 mb-2">
+            {pt.location && (
+              <span className="flex items-center gap-1 text-xs text-gray-500">
+                <MapPin size={10} />
+                {pt.location}
+              </span>
+            )}
+            {pt.function && (
+              <span className="flex items-center gap-1 text-xs font-medium"
+                style={{ color: schoolColor }}>
+                <Lightbulb size={10} />
+                {pt.function}
+              </span>
+            )}
+          </div>
+          {pt.details && (
+            <p className="text-gray-400 text-xs leading-relaxed">{pt.details}</p>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ── Helper: render visualization suggestions ──────────────────────────────────
+function VisualizationSuggestion({ suggestion, schoolColor, isZh }) {
+  const text = isZh ? suggestion.zh : (suggestion.en || suggestion.zh || '');
+  if (!text) return null;
+  return (
+    <div
+      className="p-4 rounded-xl border"
+      style={{
+        backgroundColor: `${schoolColor}08`,
+        borderColor: `${schoolColor}30`
+      }}
+    >
+      <div className="flex items-center gap-2 mb-2">
+        <Eye size={14} style={{ color: schoolColor }} />
+        <span className="text-xs font-semibold uppercase tracking-wider" style={{ color: schoolColor }}>
+          {t('schools.visualizationSuggestion')}
+        </span>
+      </div>
+      <p className="text-gray-400 text-xs leading-relaxed italic">{text}</p>
+    </div>
+  );
+}
+
 const SchoolsOverview = () => {
   const { t, i18n } = useTranslation();
   const [selectedSchool, setSelectedSchool] = useState(null);
+  const [expandedIPs, setExpandedIPs] = useState({});
   const isZh = i18n.language === 'zh';
 
-  const schoolLabels = [
-    { zh: '傳統經絡派', en: 'Traditional Meridian' },
-    { zh: '金元四大家', en: 'Jin-Yuan Four Schools' },
-    { zh: '董氏針灸', en: 'Dong\'s Acupuncture' },
-    { zh: '微針系統', en: 'Microsystems' },
-    { zh: '現代理論', en: 'Modern Theories' },
-    { zh: '時間醫學', en: 'Chrono Medicine' },
-  ];
-
   const getLabel = (index) => isZh ? schoolLabels[index].zh : schoolLabels[index].en;
+
+  const toggleIP = (schoolId, idx) => {
+    setExpandedIPs(prev => {
+      const key = `${schoolId}-${idx}`;
+      return { ...prev, [key]: !prev[key] };
+    });
+  };
 
   return (
     <section id="schools" className="py-20 px-4">
@@ -59,6 +128,8 @@ const SchoolsOverview = () => {
           {schools.map((school, index) => {
             const Icon = iconMap[school.icon] || BookOpen;
             const isExpanded = selectedSchool === school.id;
+            const hasIP = school.importantPoints && school.importantPoints.length > 0;
+            const ipCount = hasIP ? school.importantPoints.length : 0;
 
             return (
               <motion.div
@@ -70,7 +141,7 @@ const SchoolsOverview = () => {
                 className="relative group"
               >
                 <div
-                  className="relative overflow-hidden rounded-2xl border border-dark-border bg-dark-card cursor-pointer transition-all duration-300 hover:border-opacity-60"
+                  className="relative overflow-hidden rounded-2xl border border-dark-border bg-dark-card cursor-pointer transition-all duration-300"
                   style={{ borderColor: isExpanded ? school.color : undefined }}
                   onClick={() => setSelectedSchool(isExpanded ? null : school.id)}
                 >
@@ -116,14 +187,21 @@ const SchoolsOverview = () => {
 
                     {/* Expand toggle */}
                     <div className="flex items-center justify-between">
-                      <div
-                        className="text-xs font-medium px-3 py-1 rounded-full"
-                        style={{
-                          backgroundColor: `${school.color}15`,
-                          color: school.color
-                        }}
-                      >
-                        {isZh ? '點擊展開' : 'Click to expand'}
+                      <div className="flex items-center gap-2">
+                        <span
+                          className="text-xs font-medium px-3 py-1 rounded-full"
+                          style={{
+                            backgroundColor: `${school.color}15`,
+                            color: school.color
+                          }}
+                        >
+                          {t('schools.clickToExpand', { zh: '點擊展開', en: 'Click to expand' })}
+                        </span>
+                        {hasIP && (
+                          <span className="text-xs text-gray-500">
+                            {ipCount} {isZh ? '項重點' : 'points'}
+                          </span>
+                        )}
                       </div>
                       {isExpanded
                         ? <ChevronUp size={18} className="text-gray-500" />
@@ -144,6 +222,8 @@ const SchoolsOverview = () => {
             const index = schools.findIndex(s => s.id === selectedSchool);
             const Icon = iconMap[school.icon] || BookOpen;
             if (!school) return null;
+
+            const hasIP = school.importantPoints && school.importantPoints.length > 0;
 
             return (
               <motion.div
@@ -201,42 +281,46 @@ const SchoolsOverview = () => {
                     </div>
 
                     {/* Key Texts */}
-                    <div>
-                      <div className="flex items-center gap-2 mb-3">
-                        <BookOpen size={16} style={{ color: school.color }} />
-                        <h4 className="text-sm font-semibold uppercase tracking-wider" style={{ color: school.color }}>
-                          {isZh ? '代表典籍' : 'Key Texts'}
-                        </h4>
+                    {school.texts && (
+                      <div>
+                        <div className="flex items-center gap-2 mb-3">
+                          <BookOpen size={16} style={{ color: school.color }} />
+                          <h4 className="text-sm font-semibold uppercase tracking-wider" style={{ color: school.color }}>
+                            {isZh ? '代表典籍' : 'Key Texts'}
+                          </h4>
+                        </div>
+                        <p className="text-gray-300 leading-relaxed text-base">
+                          {isZh ? school.texts.zh : school.texts.en}
+                        </p>
                       </div>
-                      <p className="text-gray-300 leading-relaxed text-base">
-                        {isZh ? school.texts.zh : school.texts.en}
-                      </p>
-                    </div>
+                    )}
 
                     {/* Techniques */}
-                    <div>
-                      <div className="flex items-center gap-2 mb-3">
-                        <Sparkles size={16} style={{ color: school.color }} />
-                        <h4 className="text-sm font-semibold uppercase tracking-wider" style={{ color: school.color }}>
-                          {isZh ? '主要技法' : 'Key Techniques'}
-                        </h4>
+                    {school.techniques && (
+                      <div>
+                        <div className="flex items-center gap-2 mb-3">
+                          <Sparkles size={16} style={{ color: school.color }} />
+                          <h4 className="text-sm font-semibold uppercase tracking-wider" style={{ color: school.color }}>
+                            {isZh ? '主要技法' : 'Key Techniques'}
+                          </h4>
+                        </div>
+                        <div className="flex flex-wrap gap-2">
+                          {(isZh ? school.techniques.zh : school.techniques.en).map((tech, i) => (
+                            <span
+                              key={i}
+                              className="px-3 py-1.5 rounded-full text-sm font-medium border"
+                              style={{
+                                backgroundColor: `${school.color}10`,
+                                borderColor: `${school.color}30`,
+                                color: school.color
+                              }}
+                            >
+                              {tech}
+                            </span>
+                          ))}
+                        </div>
                       </div>
-                      <div className="flex flex-wrap gap-2">
-                        {(isZh ? school.techniques.zh : school.techniques.en).map((tech, i) => (
-                          <span
-                            key={i}
-                            className="px-3 py-1.5 rounded-full text-sm font-medium border"
-                            style={{
-                              backgroundColor: `${school.color}10`,
-                              borderColor: `${school.color}30`,
-                              color: school.color
-                            }}
-                          >
-                            {tech}
-                          </span>
-                        ))}
-                      </div>
-                    </div>
+                    )}
 
                     {/* Sub-schools (if any) */}
                     {(school.subSchools || school.subSystems) && (
@@ -281,18 +365,98 @@ const SchoolsOverview = () => {
                       </div>
                     )}
 
+                    {/* Important Points — accordion list */}
+                    {hasIP && (
+                      <div>
+                        <div className="flex items-center gap-2 mb-4">
+                          <Lightbulb size={16} style={{ color: school.color }} />
+                          <h4 className="text-sm font-semibold uppercase tracking-wider" style={{ color: school.color }}>
+                            {t('schools.importantPoints')}
+                          </h4>
+                          <span className="text-xs text-gray-500 ml-auto">
+                            {school.importantPoints.length} {t('schools.items')}
+                          </span>
+                        </div>
+                        <div className="space-y-2">
+                          {school.importantPoints.map((pt, idx) => (
+                            <div key={idx}>
+                              {/* Accordion header */}
+                              <button
+                                className="w-full text-left p-3 rounded-lg border border-dark-border hover:border-opacity-60 transition-all flex items-center gap-3"
+                                style={{ borderColor: `${school.color}25`, backgroundColor: `${school.color}05` }}
+                                onClick={() => toggleIP(selectedSchool, idx)}
+                              >
+                                <div
+                                  className="w-2 h-2 rounded-full flex-shrink-0"
+                                  style={{ backgroundColor: school.color }}
+                                />
+                                <span className="text-white text-sm font-medium flex-1">
+                                  {pt.name}
+                                </span>
+                                {pt.function && (
+                                  <span className="text-xs hidden sm:inline" style={{ color: school.color }}>
+                                    {pt.function}
+                                  </span>
+                                )}
+                                <ChevronDown
+                                  size={14}
+                                  className="text-gray-500 flex-shrink-0 transition-transform"
+                                  style={{
+                                    transform: expandedIPs[`${selectedSchool}-${idx}`]
+                                      ? 'rotate(180deg)'
+                                      : 'rotate(0deg)'
+                                  }}
+                                />
+                              </button>
+                              {/* Accordion body */}
+                              <AnimatePresence>
+                                {expandedIPs[`${selectedSchool}-${idx}`] && (
+                                  <motion.div
+                                    initial={{ height: 0, opacity: 0 }}
+                                    animate={{ height: 'auto', opacity: 1 }}
+                                    exit={{ height: 0, opacity: 0 }}
+                                    transition={{ duration: 0.25 }}
+                                    className="overflow-hidden"
+                                  >
+                                    <div className="pt-2 pb-1 px-3">
+                                      <ImportantPointCard
+                                        pt={pt}
+                                        schoolColor={school.color}
+                                        isZh={isZh}
+                                      />
+                                    </div>
+                                  </motion.div>
+                                )}
+                              </AnimatePresence>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Visualization Suggestion */}
+                    {school.visualizationSuggestions && (
+                      <VisualizationSuggestion
+                        suggestion={school.visualizationSuggestions}
+                        schoolColor={school.color}
+                        isZh={isZh}
+                      />
+                    )}
+
                     {/* Features Summary */}
-                    <div
-                      className="p-5 rounded-xl border"
-                      style={{
-                        backgroundColor: `${school.color}08`,
-                        borderColor: `${school.color}25`
-                      }}
-                    >
-                      <p className="text-gray-300 leading-relaxed italic">
-                        "{isZh ? school.features.zh : school.features.en}"
-                      </p>
-                    </div>
+                    {school.features && (
+                      <div
+                        className="p-5 rounded-xl border"
+                        style={{
+                          backgroundColor: `${school.color}08`,
+                          borderColor: `${school.color}25`
+                        }}
+                      >
+                        <p className="text-gray-300 leading-relaxed italic">
+                          "{isZh ? school.features.zh : school.features.en}"
+                        </p>
+                      </div>
+                    )}
                   </div>
                 </div>
               </motion.div>
