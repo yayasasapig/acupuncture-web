@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+<meta charset="UTF-8">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { background: #0f172a; color: #e2e8f0; font-family: 'Segoe UI', system-ui, sans-serif; padding: 40px 20px; }
+.container { max-width: 1200px; margin: 0 auto; }
+h1 { text-align: center; font-size: 2em; color: #fbbf24; margin-bottom: 8px; letter-spacing: 2px; }
+.sub { text-align: center; color: #94a3b8; margin-bottom: 40px; font-size: 0.95em; }
+
+/* Master Grid */
+.master-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-bottom: 48px; }
+@media (max-width: 900px) { .master-grid { grid-template-columns: 1fr; } }
+
+/* Arm/Leg Card */
+.body-card { background: #1e293b; border-radius: 16px; padding: 24px; border: 1px solid #334155; position: relative; }
+.body-card h2 { font-size: 1.1em; margin-bottom: 16px; padding-bottom: 8px; border-bottom: 1px solid #334155; color: #22d3ee; }
+.body-card h2 .icon { margin-right: 8px; }
+.body-card .yin-yang { display: inline-block; font-size: 0.7em; padding: 2px 10px; border-radius: 99px; margin-left: 10px; }
+.yin-badge { background: #1e3a5f; color: #60a5fa; }
+.yang-badge { background: #5f3a1e; color: #fbbf24; }
+
+/* Body SVG */
+.body-svg-wrap { text-align: center; margin-bottom: 20px; }
+.body-svg-wrap svg { max-width: 100%; height: auto; }
+
+/* Point Table */
+.point-table { width: 100%; border-collapse: separate; border-spacing: 0; font-size: 0.85em; margin-top: 8px; }
+.point-table th { text-align: left; padding: 6px 10px; background: #0f172a; color: #94a3b8; font-weight: 500; font-size: 0.8em; border-bottom: 1px solid #334155; position: sticky; top: 0; }
+.point-table td { padding: 5px 10px; border-bottom: 1px solid #1e293b; }
+.point-table tr:hover td { background: #1e293b; }
+.meridian-name { font-weight: 600; color: #e2e8f0; }
+.well { color: #fb7185; font-weight: 600; }
+.spring { color: #fbbf24; font-weight: 600; }
+.stream { color: #34d399; font-weight: 600; }
+.river { color: #22d3ee; font-weight: 600; }
+.sea { color: #a78bfa; font-weight: 600; }
+.source { color: #f472b6; font-weight: 600; }
+.td-done { background: #064e3b !important; color: #34d399; font-weight: 600; text-align: center; border-radius: 4px; }
+.td-done::after { content: ' ✅'; }
+.element-badge { display: inline-block; width: 20px; height: 20px; line-height: 20px; text-align: center; border-radius: 50%; font-size: 0.7em; }
+.wood { background: #34d399; color: #0f172a; }
+.fire { background: #fb7185; color: #0f172a; }
+.earth { background: #fbbf24; color: #0f172a; }
+.metal { background: #e2e8f0; color: #0f172a; }
+.water { background: #22d3ee; color: #0f172a; }
+
+/* Notes */
+.notes { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 40px; }
+.note-card { background: #1e293b; border-radius: 12px; padding: 20px; border: 1px solid #334155; }
+.note-card h3 { color: #fbbf24; margin-bottom: 12px; font-size: 1em; }
+.note-card ul { list-style: none; }
+.note-card li { padding: 4px 0; color: #cbd5e1; font-size: 0.9em; }
+.note-card li::before { content: '▸ '; color: #22d3ee; }
+.rhyme { background: #1e293b; border-radius: 12px; padding: 20px; border: 1px solid #334155; margin-top: 24px; text-align: center; }
+.rhyme h3 { color: #fbbf24; margin-bottom: 12px; font-size: 1em; }
+.rhyme p { font-size: 1.3em; letter-spacing: 4px; color: #e2e8f0; line-height: 2; }
+.rhyme .highlight { display: inline-block; padding: 4px 12px; border-radius: 6px; }
+.hl-well { background: #fb718544; border: 1px solid #fb7185; }
+.hl-spring { background: #fbbf2444; border: 1px solid #fbbf24; }
+.hl-stream { background: #34d39944; border: 1px solid #34d399; }
+.hl-river { background: #22d3ee44; border: 1px solid #22d3ee; }
+.hl-sea { background: #a78bfa44; border: 1px solid #a78bfa; }
+
+/* Song */
+.song-card { background: linear-gradient(135deg, #1e293b, #0f172a); border-radius: 16px; padding: 24px; margin-top: 40px; border: 1px solid #334155; }
+.song-card h2 { text-align: center; color: #fbbf24; margin-bottom: 16px; }
+.song-card .verse { text-align: center; font-size: 1.1em; line-height: 2.2; color: #e2e8f0; }
+.song-card .note { text-align: center; color: #94a3b8; font-size: 0.85em; margin-top: 16px; }
+
+/* Section title */
+.section-title { text-align: center; font-size: 1.4em; color: #22d3ee; margin: 48px 0 24px; letter-spacing: 3px; }
+
+/* Color legend */
+.legend { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; margin: 20px 0 40px; }
+.legend-item { display: flex; align-items: center; gap: 6px; font-size: 0.85em; color: #94a3b8; }
+.legend-dot { width: 12px; height: 12px; border-radius: 50%; }
+</style>
+</head>
+<body>
+<div class="container">
+
+<h1>🪡 十二經五輸穴 視覺地圖</h1>
+<p class="sub">井 → 滎 → 輸 → 經 → 合 · 由指尖流向肘膝 · 氣血由淺入深</p>
+
+<!-- Color Legend -->
+<div class="legend">
+  <div class="legend-item"><div class="legend-dot" style="background:#fb7185"></div> 井穴 (木/金)</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#fbbf24"></div> 滎穴 (火/水)</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#34d399"></div> 輸穴 (土/木)</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#22d3ee"></div> 經穴 (金/火)</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#a78bfa"></div> 合穴 (水/土)</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#f472b6"></div> 原穴 (陽經專有)</div>
+</div>
+
+<!-- BODY MAP - ARMS -->
+<div class="master-grid">
+<div class="body-card">
+  <h2><span class="icon">💪</span> 手三陰 + 手三陽</h2>
+  <div class="body-svg-wrap">
+    <svg viewBox="0 0 580 420" width="580" height="420">
+      <!-- Left arm background -->
+      <rect x="10" y="10" width="260" height="400" rx="12" fill="#0f172a" stroke="#334155" stroke-width="1"/>
+      <text x="140" y="38" text-anchor="middle" fill="#94a3b8" font-size="11" font-weight="600">左手（陰經）</text>
+      
+      <!-- Left arm: points for Yin meridians -->
+      <!-- Lung / LU -->
+      <text x="30" y="65" fill="#60a5fa" font-size="9" font-weight="600">肺經 LU (陰金)</text>
+      <line x1="30" y1="80" x2="240" y2="80" stroke="#1e293b" stroke-width="1" stroke-dasharray="3,3"/>
+      
+      <!-- Points along arm -->
+      <text x="38" y="103" fill="#fb7185" font-size="10">少商</text><text x="80" y="103" fill="#94a3b8" font-size="8">井</text>
+      <text x="38" y="125" fill="#fbbf24" font-size="10">魚際</text><text x="80" y="125" fill="#94a3b8" font-size="8">滎</text>
+      <text x="38" y="147" fill="#34d399" font-size="10">太淵</text><text x="80" y="147" fill="#94a3b8" font-size="8">輸/原</text>
+      <text x="38" y="169" fill="#22d3ee" font-size="10">經渠</text><text x="80" y="169" fill="#94a3b8" font-size="8">經</text>
+      <text x="38" y="191" fill="#a78bfa" font-size="10">尺澤</text><text x="80" y="191" fill="#94a3b8" font-size="8">合</text>
+      
+      <!-- 心包經 PC -->
+      <text x="30" y="220" fill="#60a5fa" font-size="9" font-weight="600">心包經 PC (陰火)</text>
+      <line x1="30" y1="235" x2="240" y2="235" stroke="#1e293b" stroke-width="1" stroke-dasharray="3,3"/>
+      
+      <text x="38" y="258" fill="#fb7185" font-size="10">中衝</text><text x="80" y="258" fill="#94a3b8" font-size="8">井</text>
+      <text x="38" y="280" fill="#fbbf24" font-size="10">勞宮</text><text x="80" y="280" fill="#94a3b8" font-size="8">滎</text>
+      <text x="38" y="302" fill="#34d399" font-size="10">大陵</text><text x="80" y="302" fill="#94a3b8" font-size="8">輸/原</text>
+      <text x="38" y="324" fill="#22d3ee" font-size="10">間使</text><text x="80" y="324" fill="#94a3b8" font-size="8">經</text>
+      <text x="38" y="346" fill="#a78bfa" font-size="10">曲澤</text><text x="80" y="346" fill="#94a3b8" font-size="8">合</text>
+      
+      <!-- 心經 HT -->
+      <text x="30" y="373" fill="#60a5fa" font-size="9" font-weight="600">心經 HT (陰火)</text>
+      <line x1="30" y1="388" x2="240" y2="388" stroke="#1e293b" stroke-width="1" stroke-dasharray="3,3"/>
+      
+      <text x="38" y="408" fill="#fb7185" font-size="10">少衝</text><text x="80" y="408" fill="#94a3b8" font-size="8">井</text>
+      <text x="110" y="408" fill="#fbbf24" font-size="10">少府</text><text x="155" y="408" fill="#94a3b8" font-size="8">滎</text>
+      
+      <!-- Right arm - Yang -->
+      <rect x="310" y="10" width="260" height="400" rx="12" fill="#0f172a" stroke="#334155" stroke-width="1"/>
+      <text x="440" y="38" text-anchor="middle" fill="#94a3b8" font-size="11" font-weight="600">右手（陽經）</text>
+      
+      <!-- 大腸經 LI -->
+      <text x="330" y="65" fill="#fbbf24" font-size="9" font-weight="600">大腸經 LI (陽金) ⭐ 你已學2穴</text>
+      <line x1="330" y1="80" x2="540" y2="80" stroke="#1e293b" stroke-width="1" stroke-dasharray="3,3"/>
+      
+      <text x="338" y="103" fill="#fb7185" font-size="10">商陽</text><text x="372" y="103" fill="#94a3b8" font-size="8">井</text>
+      <text x="393" y="103" fill="#fbbf24" font-size="10">二間</text><text x="430" y="103" fill="#94a3b8" font-size="8">滎</text>
+      <text x="338" y="125" fill="#34d399" font-size="10">三間</text><text x="372" y="125" fill="#94a3b8" font-size="8">輸</text>
+      <rect x="395" y="114" width="8" height="8" rx="2" fill="#f472b6"/>
+      <text x="407" y="125" fill="#f472b6" font-size="10">合谷</text><text x="445" y="125" fill="#f472b6" font-size="8">原</text><text x="460" y="125" fill="#34d399" font-size="9">✅D1</text>
+      <text x="338" y="147" fill="#22d3ee" font-size="10">陽谿</text><text x="375" y="147" fill="#94a3b8" font-size="8">經</text>
+      <rect x="396" y="136" width="8" height="8" rx="2" fill="#a78bfa"/>
+      <text x="407" y="147" fill="#a78bfa" font-size="10">曲池</text><text x="445" y="147" fill="#a78bfa" font-size="8">合</text><text x="460" y="147" fill="#a78bfa" font-size="9">✅D5</text>
+      
+      <!-- 三焦經 TB -->
+      <text x="330" y="220" fill="#fbbf24" font-size="9" font-weight="600">三焦經 TB (陽火)</text>
+      <line x1="330" y1="235" x2="540" y2="235" stroke="#1e293b" stroke-width="1" stroke-dasharray="3,3"/>
+      
+      <text x="338" y="258" fill="#fb7185" font-size="10">關衝</text><text x="375" y="258" fill="#94a3b8" font-size="8">井</text>
+      <text x="338" y="280" fill="#fbbf24" font-size="10">液門</text><text x="375" y="280" fill="#94a3b8" font-size="8">滎</text>
+      <text x="338" y="302" fill="#34d399" font-size="10">中渚</text><text x="375" y="302" fill="#94a3b8" font-size="8">輸</text>
+      <text x="393" y="302" fill="#f472b6" font-size="10">陽池</text><text x="430" y="302" fill="#94a3b8" font-size="8">原</text>
+      <text x="338" y="324" fill="#22d3ee" font-size="10">支溝</text><text x="375" y="324" fill="#94a3b8" font-size="8">經</text>
+      <text x="338" y="346" fill="#a78bfa" font-size="10">天井</text><text x="375" y="346" fill="#94a3b8" font-size="8">合</text>
+
+      <!-- 小腸經 SI -->
+      <text x="330" y="373" fill="#fbbf24" font-size="9" font-weight="600">小腸經 SI (陽火)</text>
+      <line x1="330" y1="388" x2="540" y2="388" stroke="#1e293b" stroke-width="1" stroke-dasharray="3,3"/>
+      
+      <text x="338" y="408" fill="#fb7185" font-size="10">少澤</text><text x="375" y="408" fill="#94a3b8" font-size="8">井</text>
+      <text x="393" y="408" fill="#fbbf24" font-size="10">前谷</text><text x="430" y="408" fill="#94a3b8" font-size="8">滎</text>
+      <text x="448" y="408" fill="#34d399" font-size="10">後谿</text><text x="488" y="408" fill="#94a3b8" font-size="8">輸</text>
+    </svg>
+  </div>
+</div>
+
+<!-- LEGS -->
+<div class="body-card">
+  <h2><span class="icon">🦵</span> 足三陰 + 足三陽</h2>
+  <div class="body-svg-wrap">
+    <svg viewBox="0 0 580 420" width="580" height="420">
+      <!-- Left leg - Yin -->
+      <rect x="10" y="10" width="260" height="400" rx="12" fill="#0f172a" stroke="#334155" stroke-width="1"/>
+      <text x="140" y="38" text-anchor="middle" fill="#94a3b8" font-size="11" font-weight="600">左腿（陰經）</text>
+      
+      <!-- 脾經 SP -->
+      <text x="30" y="65" fill="#60a5fa" font-size="9" font-weight="600">脾經 SP (陰土)</text>
+      <line x1="30" y1="80" x2="240" y2="80" stroke="#1e293b" stroke-width="1" stroke-dasharray="3,3"/>
+      
+      <text x="38" y="103" fill="#fb7185" font-size="10">隱白</text><text x="72" y="103" fill="#94a3b8" font-size="8">井</text>
+      <text x="38" y="125" fill="#fbbf24" font-size="10">大都</text><text x="72" y="125" fill="#94a3b8" font-size="8">滎</text>
+      <text x="38" y="147" fill="#34d399" font-size="10">太白</text><text x="72" y="147" fill="#94a3b8" font-size="8">輸/原</text>
+      <text x="38" y="169" fill="#22d3ee" font-size="10">商丘</text><text x="72" y="169" fill="#94a3b8" font-size="8">經</text>
+      <text x="38" y="191" fill="#a78bfa" font-size="10">陰陵泉</text><text x="90" y="191" fill="#94a3b8" font-size="8">合</text>
+      
+      <!-- 肝經 LR -->
+      <text x="30" y="220" fill="#60a5fa" font-size="9" font-weight="600">肝經 LR (陰木)</text>
+      <line x1="30" y1="235" x2="240" y2="235" stroke="#1e293b" stroke-width="1" stroke-dasharray="3,3"/>
+      
+      <text x="38" y="258" fill="#fb7185" font-size="10">大敦</text><text x="72" y="258" fill="#94a3b8" font-size="8">井</text>
+      <text x="38" y="280" fill="#fbbf24" font-size="10">行間</text><text x="72" y="280" fill="#94a3b8" font-size="8">滎</text>
+      <text x="38" y="302" fill="#34d399" font-size="10">太衝</text><text x="72" y="302" fill="#94a3b8" font-size="8">輸/原</text>
+      <text x="38" y="324" fill="#22d3ee" font-size="10">中封</text><text x="72" y="324" fill="#94a3b8" font-size="8">經</text>
+      <text x="38" y="346" fill="#a78bfa" font-size="10">曲泉</text><text x="72" y="346" fill="#94a3b8" font-size="8">合</text>
+      
+      <!-- 腎經 KI -->
+      <text x="30" y="373" fill="#60a5fa" font-size="9" font-weight="600">腎經 KI (陰水)</text>
+      <line x1="30" y1="388" x2="240" y2="388" stroke="#1e293b" stroke-width="1" stroke-dasharray="3,3"/>
+      
+      <text x="38" y="408" fill="#fb7185" font-size="10">湧泉</text><text x="78" y="408" fill="#94a3b8" font-size="8">井</text>
+      
+      <!-- Right leg - Yang -->
+      <rect x="310" y="10" width="260" height="400" rx="12" fill="#0f172a" stroke="#334155" stroke-width="1"/>
+      <text x="440" y="38" text-anchor="middle" fill="#94a3b8" font-size="11" font-weight="600">右腿（陽經）</text>
+      
+      <!-- 胃經 ST -->
+      <text x="330" y="65" fill="#fbbf24" font-size="9" font-weight="600">胃經 ST (陽土) ⭐ 你已學</text>
+      <line x1="330" y1="80" x2="540" y2="80" stroke="#1e293b" stroke-width="1" stroke-dasharray="3,3"/>
+      
+      <text x="338" y="103" fill="#fb7185" font-size="10">厲兌</text><text x="372" y="103" fill="#94a3b8" font-size="8">井</text>
+      <text x="338" y="125" fill="#fbbf24" font-size="10">內庭</text><text x="372" y="125" fill="#94a3b8" font-size="8">滎</text>
+      <text x="338" y="147" fill="#34d399" font-size="10">陷谷</text><text x="372" y="147" fill="#94a3b8" font-size="8">輸</text>
+      <text x="393" y="147" fill="#f472b6" font-size="10">衝陽</text><text x="430" y="147" fill="#94a3b8" font-size="8">原</text>
+      <text x="338" y="169" fill="#22d3ee" font-size="10">解谿</text><text x="372" y="169" fill="#94a3b8" font-size="8">經</text>
+      <rect x="396" y="158" width="8" height="8" rx="2" fill="#a78bfa"/>
+      <text x="407" y="169" fill="#a78bfa" font-size="10">足三里</text><text x="460" y="169" fill="#a78bfa" font-size="8">合</text><text x="478" y="169" fill="#a78bfa" font-size="9">✅D2</text>
+      
+      <!-- 膽經 GB -->
+      <text x="330" y="220" fill="#fbbf24" font-size="9" font-weight="600">膽經 GB (陽木)</text>
+      <line x1="330" y1="235" x2="540" y2="235" stroke="#1e293b" stroke-width="1" stroke-dasharray="3,3"/>
+      
+      <text x="338" y="258" fill="#fb7185" font-size="10">竅陰</text><text x="375" y="258" fill="#94a3b8" font-size="8">井</text>
+      <text x="338" y="280" fill="#fbbf24" font-size="10">俠谿</text><text x="372" y="280" fill="#94a3b8" font-size="8">滎</text>
+      <text x="338" y="302" fill="#34d399" font-size="10">足臨泣</text><text x="385" y="302" fill="#94a3b8" font-size="8">輸</text>
+      <text x="393" y="302" fill="#f472b6" font-size="10">丘墟</text><text x="430" y="302" fill="#94a3b8" font-size="8">原</text>
+      <text x="338" y="324" fill="#22d3ee" font-size="10">陽輔</text><text x="372" y="324" fill="#94a3b8" font-size="8">經</text>
+      <text x="338" y="346" fill="#a78bfa" font-size="10">陽陵泉</text><text x="390" y="346" fill="#94a3b8" font-size="8">合</text>
+      
+      <!-- 膀胱經 BL -->
+      <text x="330" y="373" fill="#fbbf24" font-size="9" font-weight="600">膀胱經 BL (陽水)</text>
+      <line x1="330" y1="388" x2="540" y2="388" stroke="#1e293b" stroke-width="1" stroke-dasharray="3,3"/>
+      
+      <text x="338" y="408" fill="#fb7185" font-size="10">至陰</text><text x="372" y="408" fill="#94a3b8" font-size="8">井</text>
+      <text x="393" y="408" fill="#fbbf24" font-size="10">通谷</text><text x="430" y="408" fill="#94a3b8" font-size="8">滎</text>
+      <text x="448" y="408" fill="#34d399" font-size="10">束骨</text><text x="488" y="408" fill="#94a3b8" font-size="8">輸</text>
+    </svg>
+  </div>
+</div>
+</div>
+
+<!-- Master Element Table -->
+<div class="section-title">━━━ 五行生成表 ━━━</div>
+
+<div class="master-grid">
+<div class="body-card">
+  <h2>🔵 陽經（六腑）金水木火土</h2>
+  <table class="point-table">
+    <tr><th>經絡</th><th>井 金</th><th>滎 水</th><th>輸 木</th><th>原</th><th>經 火</th><th>合 土</th><th>本穴</th></tr>
+    <tr><td class="meridian-name">大腸 LI 陽金</td><td class="well">商陽</td><td class="spring">二間</td><td class="stream">三間</td><td class="source">合谷 ✅</td><td class="river">陽谿</td><td class="sea">曲池 ✅</td><td class="well">商陽</td></tr>
+    <tr><td class="meridian-name">三焦 TB 陽火</td><td class="well">關衝</td><td class="spring">液門</td><td class="stream">中渚</td><td class="source">陽池</td><td class="river">支溝</td><td class="sea">天井</td><td class="river">支溝</td></tr>
+    <tr><td class="meridian-name">小腸 SI 陽火</td><td class="well">少澤</td><td class="spring">前谷</td><td class="stream">後谿</td><td class="source">腕骨</td><td class="river">陽谷</td><td class="sea">小海</td><td class="river">陽谷</td></tr>
+    <tr><td class="meridian-name">胃 ST 陽土</td><td class="well">厲兌</td><td class="spring">內庭</td><td class="stream">陷谷</td><td class="source">衝陽</td><td class="river">解谿</td><td class="sea">足三里 ✅</td><td class="sea">足三里</td></tr>
+    <tr><td class="meridian-name">膽 GB 陽木</td><td class="well">竅陰</td><td class="spring">俠谿</td><td class="stream">足臨泣</td><td class="source">丘墟</td><td class="river">陽輔</td><td class="sea">陽陵泉</td><td class="stream">足臨泣</td></tr>
+    <tr><td class="meridian-name">膀胱 BL 陽水</td><td class="well">至陰</td><td class="spring">通谷</td><td class="stream">束骨</td><td class="source">京骨</td><td class="river">崑崙</td><td class="sea">委中</td><td class="spring">通谷</td></tr>
+  </table>
+</div>
+<div class="body-card">
+  <h2>🟢 陰經（五臟）木火土金水</h2>
+  <table class="point-table">
+    <tr><th>經絡</th><th>井 木</th><th>滎 火</th><th>輸 土</th><th>原</th><th>經 金</th><th>合 水</th><th>本穴</th></tr>
+    <tr><td class="meridian-name">肺 LU 陰金</td><td class="well">少商</td><td class="spring">魚際</td><td class="stream">太淵</td><td class="source">太淵</td><td class="river">經渠</td><td class="sea">尺澤</td><td class="river">經渠</td></tr>
+    <tr><td class="meridian-name">心包 PC 陰火</td><td class="well">中衝</td><td class="spring">勞宮</td><td class="stream">大陵</td><td class="source">大陵</td><td class="river">間使</td><td class="sea">曲澤</td><td class="stream">大陵</td></tr>
+    <tr><td class="meridian-name">心 HT 陰火</td><td class="well">少衝</td><td class="spring">少府</td><td class="stream">神門</td><td class="source">神門</td><td class="river">靈道</td><td class="sea">少海</td><td class="stream">神門</td></tr>
+    <tr><td class="meridian-name">脾 SP 陰土</td><td class="well">隱白</td><td class="spring">大都</td><td class="stream">太白</td><td class="source">太白</td><td class="river">商丘</td><td class="sea">陰陵泉</td><td class="stream">太白</td></tr>
+    <tr><td class="meridian-name">肝 LR 陰木</td><td class="well">大敦</td><td class="spring">行間</td><td class="stream">太衝</td><td class="source">太衝</td><td class="river">中封</td><td class="sea">曲泉</td><td class="well">大敦</td></tr>
+    <tr><td class="meridian-name">腎 KI 陰水</td><td class="well">湧泉</td><td class="spring">然谷</td><td class="stream">太谿</td><td class="source">太谿</td><td class="river">復溜</td><td class="sea">陰谷</td><td class="spring">然谷</td></tr>
+  </table>
+</div>
+</div>
+
+<!-- Songs -->
+<div class="song-card">
+  <h2>🎵 十二經五輸穴之歌</h2>
+  <div class="verse">
+    <span class="highlight hl-well">少商魚際</span>與<span class="highlight hl-well">太淵</span>，<span class="highlight hl-river">經渠尺澤</span>肺相連<br>
+    <span class="highlight hl-well">商陽二間</span><span class="highlight hl-stream">三間</span>走，<span class="highlight hl-source">合谷</span><span class="highlight hl-river">陽谿曲池</span>牽<br>
+    <span class="highlight hl-well">厲兌內庭</span><span class="highlight hl-stream">陷谷</span>胃，<span class="highlight hl-source">衝陽解谿</span><span class="highlight hl-sea">三里</span>連<br>
+    <span class="highlight hl-well">隱白大都</span><span class="highlight hl-stream">太白</span>脾，<span class="highlight hl-river">商丘陰陵</span>泉要記<br>
+    <br>
+    <span class="highlight hl-well">少衝少府</span><span class="highlight hl-stream">神門</span>心，<span class="highlight hl-river">靈道少海</span>仔細尋<br>
+    <span class="highlight hl-well">少澤前谷</span><span class="highlight hl-stream">後谿</span>小，<span class="highlight hl-source">腕骨陽谷</span><span class="highlight hl-sea">小海</span>好<br>
+    <span class="highlight hl-well">至陰通谷</span><span class="highlight hl-stream">束骨</span>膀，<span class="highlight hl-source">京骨崑崙</span><span class="highlight hl-sea">委中</span>詳<br>
+    <span class="highlight hl-well">湧泉然谷</span><span class="highlight hl-stream">太谿</span>腎，<span class="highlight hl-river">復溜陰谷</span>要認眞<br>
+    <br>
+    <span class="highlight hl-well">中衝勞宮</span><span class="highlight hl-stream">大陵</span>包，<span class="highlight hl-river">間使曲澤</span>記得牢<br>
+    <span class="highlight hl-well">關衝液門</span><span class="highlight hl-stream">中渚</span>焦，<span class="highlight hl-source">陽池支溝</span><span class="highlight hl-sea">天井</span>瞧<br>
+    <span class="highlight hl-well">竅陰俠谿</span><span class="highlight hl-stream">臨泣</span>膽，<span class="highlight hl-source">丘墟陽輔</span><span class="highlight hl-sea">陵泉</span>攬<br>
+    <span class="highlight hl-well">大敦行間</span><span class="highlight hl-stream">太衝</span>肝，<span class="highlight hl-river">中封曲泉</span>跟着撐
+  </div>
+  <div class="note">🎯 紅色=井 · 黃色=滎 · 綠色=輸 · 粉紅=原 · 青色=經 · 紫色=合</div>
+</div>
+
+<!-- Pattern recognition cards -->
+<div class="notes">
+  <div class="note-card">
+    <h3>🧩 Pattern 1 — 「同名穴」捷徑</h3>
+    <ul>
+      <li>陰經嘅原穴 = 輸穴（同一穴：太淵、大陵、神門、太白、太衝、太谿）</li>
+      <li>陽經嘅原穴 = 輸穴隔一個（合谷喺三間同陽谿之間）</li>
+      <li>「商」字輩：少商、商陽、商丘 — 都係經/井穴（金相關）</li>
+      <li>「陽」字輩：陽谿、陽谷、陽輔、陽陵泉 — 都係經/合穴（陽經專用）</li>
+      <li>「太」字輩：太淵、太白、太衝、太谿 — 都係輸/原穴 ⭐</li>
+    </ul>
+  </div>
+  <div class="note-card">
+    <h3>🧩 Pattern 2 — 「位置記憶法」</h3>
+    <ul>
+      <li><strong>井穴</strong>：全部喺手指腳趾尖（指甲旁）</li>
+      <li><strong>滎穴</strong>：全部喺手指腳趾後面嗰節</li>
+      <li><strong>輸穴</strong>：全部喺手掌腳掌關節位</li>
+      <li><strong>經穴</strong>：全部喺手腕腳腕附近</li>
+      <li><strong>合穴</strong>：全部喺手肘膝蓋附近</li>
+      <li>口訣：<strong>「尖→節→掌→腕→肘/膝」</strong></li>
+    </ul>
+  </div>
+  <div class="note-card">
+    <h3>🧩 Pattern 3 — 本穴即係...？</h3>
+    <ul>
+      <li>本穴 = 五輸穴中，五行同該經相同嘅那個穴</li>
+      <li>大腸經（陽金）→ 本穴=商陽（井金）</li>
+      <li>胃經（陽土）→ 本穴=足三里（合土）← 你識！</li>
+      <li>心經（陰火）→ 本穴=神門（輸土）？錯！心經係陰火，本穴=少府（滎火）</li>
+      <li>唔使背：知道條經嘅五行，睇返陰/陽表就知本穴</li>
+    </ul>
+  </div>
+  <div class="note-card">
+    <h3>🧩 Pattern 4 — 「母子補瀉速查」</h3>
+    <ul>
+      <li>大腸（陽金）虛 → 補曲池（母/土）✅ 已學</li>
+      <li>大腸（陽金）實 → 瀉二間（子/水）</li>
+      <li>胃（陽土）虛 → 補足三里（母/火）⚠️ 足三里本身就係合穴/母穴</li>
+      <li>胃（陽土）實 → 瀉厲兌（子/金）</li>
+      <li>心包（陰火）虛 → 補中衝（母/木）</li>
+      <li>心包（陰火）實 → 瀉大陵（子/土）</li>
+      <li>記法：母=生我·井向合方向·順推一格 = 母</li>
+    </ul>
+  </div>
+</div>
+
+<!-- Quick Reference - Body Map Pattern -->
+<div class="song-card" style="margin-top:40px">
+  <h2>💪 身體位置速記：「五指歸經」</h2>
+  <div class="verse" style="font-size:1em; line-height:2">
+    🖐️ <b>拇指</b> → <span style="color:#60a5fa">肺經</span>（少商、魚際、太淵）<br>
+    👆 <b>食指</b> → <span style="color:#fbbf24">大腸經</span>（商陽、二間、三間、合谷）<span style="color:#34d399"> ⭐</span><br>
+    🖕 <b>中指</b> → <span style="color:#60a5fa">心包經</span>（中衝、勞宮、大陵）<br>
+    🖖 <b>無名指</b> → <span style="color:#60a5fa">三焦經</span>（關衝、液門、中渚）<br>
+    🫸 <b>尾指</b> → <span style="color:#60a5fa">心經</span>（少衝、少府、神門）<br>
+    <span style="color:#60a5fa">尾指外側</span> → <span style="color:#fbbf24">小腸經</span>（少澤、前谷、後谿）<br>
+    <br>
+    🦶 <b>大趾</b> → <span style="color:#60a5fa">脾經·肝經</span><br>
+    🦶 <b>二趾</b> → <span style="color:#fbbf24">胃經</span><br>
+    🦶 <b>四趾</b> → <span style="color:#fbbf24">膽經</span><br>
+    🦶 <b>尾趾</b> → <span style="color:#fbbf24">膀胱經</span><br>
+    🦶 <b>腳板底</b> → <span style="color:#60a5fa">腎經</span>（湧泉）
+  </div>
+</div>
+
+</div>
+</body>
+</html>
